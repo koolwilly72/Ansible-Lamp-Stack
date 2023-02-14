@@ -1,0 +1,4 @@
+web01 ansible_host=192.168.250.14 ansible_user=vagrant
+
+[webserver]
+web01

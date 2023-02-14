@@ -1,0 +1,42 @@
+- name: Update repositories cache and install "apache2" package
+  ansible.builtin.apt:
+    name: apache2
+    update_cache: yes
+    state: present
+
+- name: UFW rules to Allow Apache2
+  ufw:
+    rule: allow
+    name: Apache
+
+- name: Creating document root
+  file:
+    path: "/var/www/{{ http_host }}"
+    state: directory
+    owner: "{{ app_user }}"
+    mode: '0755'
+
+- name: Copying index file to remote host
+  template:
+    src: "files/index.html"
+    dest: "/var/www/{{ http_host }}/index.html"
+
+- name: Setting up Apache Virtual Host
+  template:
+    src: "files/apache.conf"
+    dest: "/etc/apache2/sites-available/{{ http_conf }}"
+
+- name: Enabling Site
+  command: a2ensite {{ http_conf }}
+  notify: Restart Apache
+
+- name: Disabling default Apache site
+  command: a2dissite 000-default.conf
+  when: disable_default
+  notify: Reload Apache
+
+- name: "UFW firewall allow HTTP on port {{ http_port }}"
+  ufw:
+    rule: allow
+    port: "{{ http_port }}"
+    proto: tcp
