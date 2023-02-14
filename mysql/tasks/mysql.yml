@@ -1,0 +1,32 @@
+- name: Installing MySQL Server
+  ansible.builtin.apt:
+    name: mysql-server
+    update_cache: yes
+    state: present
+
+- name: Installing PyMySQL
+  ansible.builtin.apt:
+    name: python3-pymysql
+    update_cache: yes
+    state: present
+
+- name: Setting MySQL root password
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Removing anonymous users
+  mysql_user:
+    name: ''
+    host_all: yes
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Removing MySQL test database
+  mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"

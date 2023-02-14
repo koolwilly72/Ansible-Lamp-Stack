@@ -1,0 +1,11 @@
+- name: Installing php & it's dependences
+  ansible.builtin.apt:
+    pkg:
+    - php
+    - php-mysql
+    - libapache2-mod-php
+
+- name: Sets Up PHP Info Page
+  template:
+    src: "files/info.php"
+    dest: "/var/www/{{ http_host }}/info.php"

@@ -1,4 +1,5 @@
 ---
+mysql_root_password: "Password123"
 app_user: "www-data"
 http_host: "tutorlia.com"
 http_conf: "tutorlia.com.conf"

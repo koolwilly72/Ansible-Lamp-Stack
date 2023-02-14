@@ -1,5 +1,5 @@
 - hosts: webserver
   roles:
     - apache2
-#    - essentials
-#    - security
+    - mysql
+    - php
