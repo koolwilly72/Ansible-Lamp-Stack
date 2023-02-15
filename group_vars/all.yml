@@ -1,7 +1,10 @@
 ---
-mysql_root_password: "Password123"
+# MYSQL root password
+mysql_root_password: "changme123"
+
+# Apache virtual host configuration
 app_user: "www-data"
-http_host: "tutorlia.com"
-http_conf: "tutorlia.com.conf"
+http_host: "example.com"
+http_conf: "example.com.conf"
 http_port: "80"
 disable_default: true
